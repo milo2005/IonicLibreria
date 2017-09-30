@@ -1,13 +1,21 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-import 'rxjs/add/operator/map';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class LibroProvider {
 
-  constructor(public http: Http) {
-    console.log('Hello LibroProvider Provider');
+  url = "http://localhost:3000/api/books"
+
+  constructor(public http: HttpClient) {}
+
+  all(){
+    return this.http.get<Libro[]>(this.url)
   }
+
+  insert(book:Libro){
+    return this.http.post<SimpleResponse>(this.url, book)
+  }
+
 
 }
 
@@ -16,4 +24,9 @@ export class Libro {
   nombre:string;
   autor:string;
   paginas:number;  
+}
+
+export class SimpleResponse{
+  success:boolean;
+  err:string;
 }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { Libro, LibroProvider } from '../../providers/libro/libro';
+
 
 @Component({
   selector: 'page-add-libro',
@@ -8,15 +9,35 @@ import { Libro, LibroProvider } from '../../providers/libro/libro';
 })
 export class AddLibroPage {
 
-  libro:Libro;
+  libro: Libro;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+    public service: LibroProvider, public toastCtrl: ToastController) {
     this.libro = new Libro();
   }
 
-  save(){
-    this.navCtrl.pop();
+  save() {
+
+    this.service.insert(this.libro)
+      .subscribe(res => {
+        if (res.success) {
+          this.showToast("Libro insertado !");
+          this.navCtrl.pop();
+        } else {
+          this.showToast("Error al insertar libro");
+        }
+      });
+
+
   }
-  
+
+
+  showToast(msg: string) {
+    let toast = this.toastCtrl.create({
+      message: msg,
+      duration: 3000
+    });
+    toast.present();
+  }
 
 }

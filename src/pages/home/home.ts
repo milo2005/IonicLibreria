@@ -14,8 +14,23 @@ export class HomePage {
   constructor(public navCtrl: NavController, public service: LibroProvider) {
   }
 
+  ionViewDidLoad() {
+    this.loadBooks();
+  }
+
   goToAdd() {
     this.navCtrl.push(AddLibroPage);
+  }
+
+  loadBooks(refresher = null) {
+    this.service.all().subscribe(res => {
+      this.data = res;
+      if(refresher != null)  refresher.complete();
+    });
+  }
+
+  doRefresh(refresher) {
+    this.loadBooks(refresher);
   }
 
 }

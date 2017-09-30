@@ -1,15 +1,21 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>
-      Ionic Blank
+  <ion-navbar color="primary">
+    <ion-title >
+      Libros
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingText = "Deliza para recargar"
+      refreshingText="Recargando ..."
+    ></ion-refresher-content>
+  </ion-refresher>
   <ion-list>
     <ion-item *ngFor="let d of data">
-      <h2>{{p.nombre}}</h2>
+      <h2>{{d.nombre}}</h2>
       <p>autor: {{d.autor}}</p>
       <p>paginas: {{d.paginas}}</p>      
     </ion-item>
